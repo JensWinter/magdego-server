@@ -3,4 +3,4 @@ node_js:
   - "0.10"
 script:
   - jshint ./server app.js routes.js
-  - npm test
+  - istanbul cover mocha.runner.js --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
