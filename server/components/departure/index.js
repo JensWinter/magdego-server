@@ -23,6 +23,7 @@ var retrieveJourneyInformation = function(res) {
   var timeTable = [];
 
   _.forEach(res.journey, function(journey) {
+    if(_.isUndefined(journey.st) || _.isUndefined(journey.pr)) return;
     if(!_.isUndefined(journey.rt.dlt)) journey.da = journey.rt.dlt; 
     var date = journey.da.split('.').reverse();
     date[0] = '20' + date[0];
