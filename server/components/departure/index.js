@@ -27,8 +27,9 @@ var retrieveJourneyInformation = function(res) {
   _.forEach(res.journey, function(journey) {
     if(_.isNull(journey.st) || _.isNull(journey.pr) || _.isNull(journey.da)) return;
     if(!_.isNull(journey.rt.dlt)) journey.da = journey.rt.dlt;
+    var date;
     if(_.includes(journey.da, '.')){
-      var date = journey.da.split('.').reverse();
+          date = journey.da.split('.').reverse();
           date[0] = '20' + date[0];
     } else {
       date = [new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()];
@@ -45,13 +46,13 @@ var retrieveJourneyInformation = function(res) {
   });
   return timeTable;
 
-}
+};
 
 
 var getJourneys = function(station) {
   return  InsaAdapter.requestJourneys(station.extId)
-          .then(retrieveJourneyInformation)
-}
+          .then(retrieveJourneyInformation);
+};
 
 
 var createTimeTables = function(stationData) {
@@ -62,23 +63,28 @@ var createTimeTables = function(stationData) {
     var journeyPromise = getJourneys(station);
     journeyPromise.then(function(val) {
       timeTable.departure_times = val;
-    })
+    });
     promiseArray.push(journeyPromise);
     return timeTable;
   });
 
   return promiseArray;
-}
+};
+
+
+//TODO is hack. make frontend more robust so we dont have to clean timetable
+var cleanTimetable = function() {
+  if(_.isUndefined(timeTables[0].departure_times)) timeTables = [];
+  return timeTables;
+};
 
 
 var getTimetables = function(longitude, latitude) {
   return  InsaAdapter.requestStations(longitude, latitude)
           .then(createTimeTables).all()
-          .then(function(arguments) {
-            return timeTables;
-          })
+          .then(cleanTimetable)
           .fail(console.warn);
-}
+};
 
 
 module.exports = {
