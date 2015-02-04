@@ -22,7 +22,7 @@ var retrieveJourneyInformation = function(res) {
   var timeTable = [];
 
   _.forEach(res.journey, function(journey) {
-    if(_.isNull(journey.st) || _.isNull(journey.pr) || _.isNull(journey.da)) return;
+    if(_.isNull(journey.st) || journey.st === '' || _.isNull(journey.pr) || journey.pr === '' || _.isNull(journey.da) || journey.da === '') return;
     if(!_.isNull(journey.rt.dlt)) journey.da = journey.rt.dlt;
     var date;
     if(_.includes(journey.da, '.')){
