@@ -28,7 +28,7 @@ module.exports = function(router) {
   });
 
   router.get('/departure-time/location/:long/:lat', cors(), function (req, res) {
-    departure.getTimetables(req.params.long, req.params.lat)
+    departure.getTimeTables(req.params.long, req.params.lat)
       .then(function(result) {
         res.json(result);
         res.end();

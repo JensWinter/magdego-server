@@ -4,9 +4,6 @@ var _ = require('lodash');
 var InsaAdapter = require('../../adapters/insaAdapter');
 
 
-var timeTables;
-
-
 //station names have format 'City, Station'. We only need Station.
 var getFormattedStationName = function(stationName) {
   var indexKomma = stationName.indexOf(',');
@@ -54,39 +51,47 @@ var getJourneys = function(station) {
           .then(retrieveJourneyInformation);
 };
 
+//TODO refactor for better promiseArray handling. Can we wait for promiseArray to resolve but then return timeTables instead?
+var createTimeTables = function(timeTables) {
+  return function(stationData) {
+    var promiseArray = [];
 
-var createTimeTables = function(stationData) {
-  var promiseArray = [];
-  timeTables = _.map(stationData.stops, function(station) {
-    var timeTable = {};
-    timeTable.station_info = getFormattedStationName(station.name);
-    var journeyPromise = getJourneys(station);
-    journeyPromise.then(function(val) {
-      timeTable.departure_times = val;
+    _.forEach(stationData.stops, function(station) {
+      if(station.prodclass <= 31){
+        return;
+      }
+      var timeTable = {};
+      timeTable.station_info = getFormattedStationName(station.name);
+      var journeyPromise = getJourneys(station);
+      journeyPromise.then(function(val) {
+        timeTable.departure_times = val;
+      });
+      promiseArray.push(journeyPromise);
+      timeTables.push(timeTable);
     });
-    promiseArray.push(journeyPromise);
-    return timeTable;
-  });
 
-  return promiseArray;
+    return promiseArray;
+  };
 };
-
 
 //TODO is hack. make frontend more robust so we dont have to clean timetable
-var cleanTimetable = function() {
-  if(_.isUndefined(timeTables[0].departure_times)) timeTables = [];
-  return timeTables;
+var cleanTimetable = function(timeTables) {
+  return function() {
+    if(timeTables.length > 0 && _.isUndefined(timeTables[0].departure_times)) timeTables = [];
+    return timeTables;
+  };
 };
 
 
-var getTimetables = function(longitude, latitude) {
+var getTimeTables = function(longitude, latitude) {
+  var timeTables = [];
   return  InsaAdapter.requestStations(longitude, latitude)
-          .then(createTimeTables).all()
-          .then(cleanTimetable)
+          .then(createTimeTables(timeTables)).all()
+          .then(cleanTimetable(timeTables))
           .fail(console.warn);
 };
 
 
 module.exports = {
-  getTimetables: getTimetables
+  getTimeTables: getTimeTables
 };
