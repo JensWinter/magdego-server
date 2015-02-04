@@ -19,6 +19,7 @@
   "devDependencies": {
     "chai": "^1.10.0",
     "glob": "^4.3.5",
+    "jshint": "^2.6.0",
     "mocha": "^2.1.0",
     "node-inspector": "^0.8.3"
   },
