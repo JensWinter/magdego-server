@@ -11,10 +11,12 @@ var timeTables;
 var getFormattedStationName = function(stationName) {
   var indexKomma = stationName.indexOf(',');
   if(indexKomma === -1) indexKomma = -2;
-  return stationName.slice(indexKomma + 2, stationName.length);
+  var sliced = stationName.slice(indexKomma + 2, stationName.length);
+  return sliced;
 };
 
 
+//TODO refactor
 var retrieveJourneyInformation = function(res) {
   if( !res.hasOwnProperty('journey') ) {
     return;
@@ -23,22 +25,23 @@ var retrieveJourneyInformation = function(res) {
   var timeTable = [];
 
   _.forEach(res.journey, function(journey) {
-    if(_.isUndefined(journey.st) || _.isUndefined(journey.pr)) return;
-    if(!_.isUndefined(journey.rt.dlt)) journey.da = journey.rt.dlt; 
-    var date = journey.da.split('.').reverse();
-    date[0] = '20' + date[0];
-    if(date.length !== 3) date = [new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()];
-    timeTableEntry = {
-      line: journey.pr,
-      departure: new Date(date + ' ' + journey.ti).toJSON(),
-      direction: getFormattedStationName(journey.st)
+    if(_.isNull(journey.st) || _.isNull(journey.pr) || _.isNull(journey.da)) return;
+    if(!_.isNull(journey.rt.dlt)) journey.da = journey.rt.dlt;
+    if(_.includes(journey.da, '.')){
+      var date = journey.da.split('.').reverse();
+          date[0] = '20' + date[0];
+    } else {
+      date = [new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()];
     }
+    var timeTableEntry = {};
+        timeTableEntry.line = journey.pr;
+        timeTableEntry.departure = new Date(date + ' ' + journey.ti).toJSON();
+        timeTableEntry.direction = getFormattedStationName(journey.st);
+
     if(journey.rt !== false) timeTableEntry.delay = {};
     if(!_.isUndefined(journey.rt.dlm)) timeTableEntry.delay.minutes = journey.rt.dlm; 
     if(!_.isUndefined(journey.rt.status)) timeTableEntry.delay.status = journey.rt.status; 
     timeTable.push(timeTableEntry);
-
-    if(timeTableEntry.departure === null) console.log(timeTableEntry.departure);
   });
   return timeTable;
 
@@ -74,6 +77,7 @@ var getTimetables = function(longitude, latitude) {
           .then(function(arguments) {
             return timeTables;
           })
+          .fail(console.warn);
 }
 
 

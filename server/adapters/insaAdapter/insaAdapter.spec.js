@@ -39,6 +39,7 @@ describe('----Test insaAdapter----', function () {
 	}
 
 	it('requestStations', function (done) {
+		this.timeout(3000);
 	    InsaAdapter.requestStations('11.6289', '52.1308')
 	    	.then(assertStations)
 	    	.then(done)
@@ -46,6 +47,7 @@ describe('----Test insaAdapter----', function () {
 	});
 
 	it('requestJourneys', function (done) {
+		this.timeout(3000);
 	    InsaAdapter.requestJourneys(validExtIdOfStation)
 	    	.then(assertJourneys)
 	    	.then(done)
