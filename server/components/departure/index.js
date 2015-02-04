@@ -27,7 +27,6 @@ var retrieveJourneyInformation = function(res) {
     var date = journey.da.split('.').reverse();
     date[0] = '20' + date[0];
     if(date.length !== 3) date = [new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()];
-    console.log(date);
     timeTableEntry = {
       line: journey.pr,
       departure: new Date(date + ' ' + journey.ti).toJSON(),

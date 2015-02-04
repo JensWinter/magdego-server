@@ -8,7 +8,6 @@ describe('----Test main function----', function () {
 		this.timeout(3000);
 		Departure.getTimetables('11.6289', '52.1308')
 			.then(function(stuff) {
-				console.log(stuff[0]);
 				done();
 			})
 			.fail(done);
