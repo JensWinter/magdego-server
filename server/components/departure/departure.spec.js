@@ -15,8 +15,8 @@ describe('----Test main function----', function () {
 						expect(departure.line).to.be.a('string').and.to.have.length.above(0, 'departure.line');
 						expect(departure.departure).to.be.a('string').and.to.have.length.above(0, 'departure.departure');
 						expect(departure.direction).to.be.a('string').and.to.have.length.above(0, 'departure.direction');
-					})
-				})
+					});
+				});
 				done();
 			})
 			.fail(done);
