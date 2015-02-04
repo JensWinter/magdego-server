@@ -8,33 +8,37 @@ describe('----Test insaAdapter----', function () {
 
 	var assertStations = function(responseBody) {
 		expect(responseBody.stops).to.exist();
+
 		_.forEach(responseBody.stops, function(station) {
-			expect(station.x).to.be.a('string').and.ok();
-			expect(station.y).to.be.a('string').and.ok();
-			expect(station.name).to.be.a('string').and.ok();
-			expect(station.urlname).to.be.a('string').and.ok();
-			expect(station.prodclass).to.be.a('string').and.ok();
-			expect(station.extId).to.be.a('string').and.ok();
-			expect(station.puic).to.be.a('string').and.ok();
-			expect(station.dist).to.be.a('string').and.ok();
-			expect(station.planId).to.be.a('string').and.ok();
+			console.log(station);
+			expect(station.x).to.have.length.above(0, 'station.x');
+			expect(station.y).to.have.length.above(0, 'station.y');
+			expect(station.name).to.have.length.above(0, 'station.name');
+			expect(station.urlname).to.have.length.above(0, 'station.urlname');
+			expect(parseInt(station.prodclass)).to.be.above(32, 'station.prodclass');
+			expect(station.extId).to.have.length.above(0, 'station.extId');
+			expect(station.puic).to.have.length.above(0, 'station.puic');
+			expect(station.dist).to.have.length.above(0, 'station.dist');
+			expect(station.planId).to.have.length.above(0, 'station.planId');
 		});
 	};
 
 	var assertJourneys = function(responseBody) {
 		expect(responseBody.journey).to.exist();
+
 		_.forEach(responseBody.journey, function(journey) {
-			expect(journey.lfn).to.be.a('string').and.ok();
-			expect(journey.id).to.be.a('string').and.ok();
-			expect(journey.ti).to.be.a('string').and.ok();
-			expect(journey.da).to.be.a('string').and.ok();
-			expect(journey.ic).to.be.a('string').and.ok();
-			expect(journey.pr).to.be.a('string').and.ok();
-			expect(journey.st).to.be.a('string').and.ok();
-			expect(journey.tr).to.be.a('string');
-			expect(journey.rt).to.be.a('boolean');
-			expect(journey.tinfo).to.be.a('string').and.ok();
-			expect(journey.tinfoline).to.be.a('string').and.ok();
+			console.log(journey);
+			expect(journey.lfn).to.have.length.above(0, 'journey.lfn');
+			expect(journey.id).to.have.length.above(0, 'journey.id');
+			expect(journey.ti).to.have.length.above(0, 'journey.ti');
+			expect(journey.da).to.have.length.above(0, 'journey.da');
+			expect(journey.ic).to.have.length.above(0, 'journey.ic');
+			expect(journey.pr).to.have.length.above(0, 'journey.pr');
+			expect(journey.st).to.have.length.above(0, 'journey.st');
+			//expect(journey.tr).to.have.length.above(0, 'journey.tr');
+			expect(journey.rt).to.have.length.above(0, 'journey.rt');
+			expect(journey.tinfo).to.have.length.above(0, 'journey.tinfo');
+			expect(journey.tinfoline).to.have.length.above(0, 'journey.tinfoline');
 		});
 	};
 
