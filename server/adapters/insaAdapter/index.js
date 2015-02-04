@@ -57,7 +57,7 @@ var sendRequest = function(path) {
 	});
 
 	return deffered.promise;
-}
+};
 
 
 var requestJourneys = function(stationID) {
@@ -75,4 +75,4 @@ var requestStations = function(longitude, latitude) {
 module.exports = {
 	requestStations: requestStations,
 	requestJourneys: requestJourneys
-}
+};

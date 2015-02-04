@@ -36,7 +36,7 @@ describe('----Test insaAdapter----', function () {
 			expect(journey.tinfo).to.be.a('string').and.ok();
 			expect(journey.tinfoline).to.be.a('string').and.ok();
 		});
-	}
+	};
 
 	it('requestStations', function (done) {
 		this.timeout(3000);
