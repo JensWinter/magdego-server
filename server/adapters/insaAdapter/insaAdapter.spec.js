@@ -34,10 +34,16 @@ describe('----Test insaAdapter----', function () {
 			expect(journey.ic).to.have.length.above(0, 'journey.ic');
 			expect(journey.pr).to.have.length.above(0, 'journey.pr');
 			expect(journey.st).to.have.length.above(0, 'journey.st');
-			//expect(journey.tr).to.have.length.above(0, 'journey.tr');
-			//expect(journey.rt).to.have.length.above(0, 'journey.rt');
 			expect(journey.tinfo).to.have.length.above(0, 'journey.tinfo');
 			expect(journey.tinfoline).to.have.length.above(0, 'journey.tinfoline');
+			expect(journey.rt).to.exist();
+			if(journey.rt !== false) {
+				expect(journey.rt.dlt).to.have.length.above(0, 'journey.rt.dlt');
+				expect(journey.rt.dlm).to.have.length.above(0, 'journey.rt.dlm)');
+				expect(journey.rt.status).to.have.length.above(0, 'journey.rt.status');
+			} else {
+				expect(journey.rt).to.be.false();
+			}
 		});
 	};
 
