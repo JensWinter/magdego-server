@@ -6,7 +6,7 @@ describe('----Test main function----', function () {
 
 	it('get time tables in valid area', function (done) {
 		this.timeout(3000);
-		Departure.getTimeTables('11.6289', '52.1308')
+		Departure.getTimeTables('11.633139', '52.120076')
 			.then(function(timeTables) {
 				expect(timeTables).to.be.an('array').and.to.have.length.above(0, 'got no timeTables');
 				_.forEach(timeTables, function(timeTable) {
