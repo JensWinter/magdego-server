@@ -49,7 +49,7 @@ describe('----Test insaAdapter----', function () {
 
 	it('requestStations', function (done) {
 		this.timeout(3000);
-	    InsaAdapter.requestStations('11.6289', '52.1308')
+	    InsaAdapter.requestStations('11.633139', '52.120076')
 	    	.then(assertStations)
 	    	.then(done)
 	    	.fail(done);
