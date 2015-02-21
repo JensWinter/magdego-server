@@ -77,7 +77,7 @@ var createTimeTables = function(timeTables) {
 //TODO is hack. make frontend more robust so we dont have to clean timetable
 var cleanTimetable = function(timeTables) {
   return function() {
-    if(timeTables.length > 0 && _.isUndefined(timeTables[0].departure_times)) timeTables = [];
+    if(timeTables.length > 0 && _.isUndefined(timeTables[0].departure_times)) _.pullAt(timeTables, 0);
     return timeTables;
   };
 };
