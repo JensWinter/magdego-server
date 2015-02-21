@@ -32,7 +32,7 @@ var retrieveJourneyInformation = function(res) {
       date = [new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate()];
     }
     var timeTableEntry = {};
-        timeTableEntry.line = journey.pr;
+        timeTableEntry.line = journey.pr.replace(/\s+/g, ' ');;
         timeTableEntry.departure = new Date(date + ' ' + journey.ti).toJSON();
         timeTableEntry.direction = getFormattedStationName(journey.st);
 
